@@ -19,7 +19,8 @@ fun MemberParamS.toEntity() = MemberEntity(
     memo = memo
 )
 
-fun MemberEntity.toEntity() = MemberParamS(
+fun MemberEntity.toResultS() = MemberResultS(
+    id = id!!,
     userId = userId,
     password = password,
     email = email,
@@ -49,15 +50,4 @@ data class MemberResultS(
             }
     }
 }
-
-
-
-//fun Comment.toResponse() = CommentResponse(
-//    id = id!!,
-//    issueId = issue.id!!,
-//    userId = userId,
-//    username = username,
-//    body = body
-//)
-
 
