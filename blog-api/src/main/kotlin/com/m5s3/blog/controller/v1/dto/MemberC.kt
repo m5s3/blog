@@ -5,6 +5,7 @@ import com.m5s3.blog.service.dto.MemberParamS
 import com.m5s3.blog.service.dto.MemberResultS
 
 data class MemberParamC(
+    val id: Long? = 0,
     val userId: String,
     val password: String,
     val email: String,
@@ -13,6 +14,7 @@ data class MemberParamC(
 )
 
 fun MemberParamC.toS() = MemberParamS(
+    id = id,
     userId = userId,
     password = password,
     email = email,
