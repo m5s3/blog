@@ -1,18 +1,21 @@
 spring:
   jpa:
     open-in-view: false
-    hibernate:
-      ddl-auto: none
     properties:
       hibernate.default_batch_fetch_size: 100
 
 ---
 spring.config.activate.on-profile: local
 
+
+logging:
+  level:
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
 spring:
   jpa:
-    hibernate:
-      ddl-auto: create
+    ddl-auto: create
+    generate-ddl: true
     properties:
       hibernate:
         format_sql: true
@@ -23,14 +26,14 @@ blog-api:
     mysql:
       master:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3307/blogs?zeroDateTimeBehavior=convertToNull&characterEncoding=UTF-8
+        jdbc-url: jdbc:mysql://localhost:3307/blog?zeroDateTimeBehavior=convertToNull&characterEncoding=UTF-8
         username: test
         password: test
         pool-name: HikariPool-Blog-APP-Master
         maximum-pool-size: 2
       slave:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3307/blogs?zeroDateTimeBehavior=convertToNull&characterEncoding=UTF-8
+        jdbc-url: jdbc:mysql://localhost:3307/blog?zeroDateTimeBehavior=convertToNull&characterEncoding=UTF-8
         username: test
         password: test
         pool-name: HikariPool-Blog-APP-Slave

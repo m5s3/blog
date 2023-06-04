@@ -3,8 +3,9 @@ package com.m5s3.blog.domain
 import com.m5s3.blog.domain.base.BaseEntity
 import jakarta.persistence.*
 
+
 @Entity
-@Table
+@Table(name = "member")
 class MemberEntity (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
