@@ -5,6 +5,7 @@ import com.m5s3.blog.controller.v1.dto.BlogResultC
 import com.m5s3.blog.controller.v1.dto.MemberParamC
 import com.m5s3.blog.controller.v1.dto.toS
 import com.m5s3.blog.service.BlogService
+import com.m5s3.blog.service.exception.DataNotFoundException
 import com.m5s3.blog.service.exception.DataNotFoundExceptionWhenDelete
 import com.m5s3.blog.service.exception.DataNotFoundExceptionWhenModify
 import org.springframework.http.HttpStatus
@@ -28,7 +29,11 @@ class BlogController(
     fun getBlog(
         @PathVariable id:Long
     ): BlogResultC {
-        return BlogResultC(blogService.getBlogById(id))
+        try {
+            return BlogResultC(blogService.getBlogById(id))
+        } catch(e: DataNotFoundException) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, e.message, e)
+        }
     }
 
     @PostMapping

@@ -17,13 +17,20 @@ import org.springframework.transaction.annotation.Transactional
 class MemberServiceImpl(
     private val memberRepository: MemberRepository
 ): MemberService {
-
     @Transactional(readOnly = true)
     override fun getMemberById(id: Long): MemberResultS {
         val memberEntity: MemberEntity =
             memberRepository.findByIdOrNull(id)
-            ?: throw DataNotFoundException("Not Found Error(${id})")
+                ?: throw DataNotFoundException("Not Found Error(${id})")
 
+        return MemberResultS(memberEntity)
+    }
+
+    @Transactional(readOnly = true)
+    override fun getMemberByUserId(userId: String): MemberResultS? {
+        val memberEntity =
+            memberRepository.findByUserId(userId)
+                ?: throw DataNotFoundException("Not Found Error(${userId})")
         return MemberResultS(memberEntity)
     }
 
@@ -41,10 +48,12 @@ class MemberServiceImpl(
         return MemberResultS(memberEntity)
     }
 
+    @Transactional(readOnly = false)
     override fun modifyMemberById(id: Long, param: MemberParamS): MemberResultS {
         TODO("Not yet implemented")
     }
 
+    @Transactional(readOnly = false)
     override fun deleteMemberById(id: Long) {
         TODO("Not yet implemented")
     }

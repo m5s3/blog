@@ -25,6 +25,11 @@ class BlogServiceImpl(
 
     @Transactional(readOnly = true)
     override fun getBlogById(id: Long): BlogResultS {
+//        try {
+//
+//        } catch(ex: EntityNotFoundException) {
+//
+//        }
         val blogEntity: BlogEntity =
             blogRepository.findByIdOrNull(id)
                 ?: throw DataNotFoundException("Not Found Error(${id})")
