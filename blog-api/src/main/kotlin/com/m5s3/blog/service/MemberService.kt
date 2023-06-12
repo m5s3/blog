@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable
 
 
 interface MemberService {
+    fun getMemberByUserId(userId: String): MemberResultS?
     fun getMemberById(id: Long): MemberResultS
     fun getMembers(pageable: Pageable): Page<MemberResultS>
     fun createMember(param: MemberParamS): MemberResultS
