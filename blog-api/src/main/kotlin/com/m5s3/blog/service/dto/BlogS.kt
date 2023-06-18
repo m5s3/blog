@@ -29,9 +29,32 @@ data class BlogParamS(
     val content: String? = null,
     val member: MemberParamS
 )
-
 fun BlogParamS.toEntity(member: MemberEntity) = BlogEntity(
     title = title!!,
     content = content!!,
     member = member
 )
+
+
+data class BlogWithCommentsResultS(
+    val id: Long,
+    val title: String,
+    val content: String,
+    val member: MemberResultS,
+    val commentsResultS: Set<CommentResultS>,
+) {
+    companion object {
+        operator fun invoke(blogEntity: BlogEntity) =
+            with(blogEntity) {
+                BlogWithCommentsResultS(
+                    id = id!!,
+                    title = title,
+                    content = content,
+                    member = member.toResultS(),
+                    commentsResultS = blogEntity.commentsEntity.map {
+                        CommentResultS(it)
+                    }.toSet()
+                )
+            }
+    }
+}

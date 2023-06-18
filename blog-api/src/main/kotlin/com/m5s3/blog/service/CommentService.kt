@@ -5,4 +5,5 @@ import com.m5s3.blog.service.dto.CommentResultS
 
 interface CommentService {
     fun createComment(param: CommentParamS): CommentResultS
+    fun deleteCommentById(commentId: Long)
 }

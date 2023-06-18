@@ -18,5 +18,9 @@ class BlogEntity(
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "userId")
-    val member: MemberEntity
+    val member: MemberEntity,
+
+    @OrderBy("created_at DESC")
+    @OneToMany(mappedBy = "blogEntity", cascade = [CascadeType.ALL])
+    val commentsEntity: MutableSet<CommentEntity> = mutableSetOf(),
 ) : BaseEntity()

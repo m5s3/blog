@@ -21,7 +21,6 @@ class CommentEntity (
     @Column(length = 500, nullable = false)
     var content: String,
 
-
     @Column(updatable = false)
     var parentCommentId: Long? = null,
 

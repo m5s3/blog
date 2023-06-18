@@ -11,8 +11,10 @@ import com.m5s3.blog.service.dto.CommentParamS
 import com.m5s3.blog.service.dto.CommentResultS
 import com.m5s3.blog.service.dto.toEntity
 import com.m5s3.blog.service.exception.DataNotFoundException
+import com.m5s3.blog.service.exception.DataNotFoundExceptionWhenDelete
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CommentServiceImpl(
@@ -20,6 +22,7 @@ class CommentServiceImpl(
     private val memberRepository: MemberRepository,
     private val blogRepository: BlogRepository
 ) : CommentService {
+    @Transactional(readOnly = false)
     override fun createComment(param: CommentParamS): CommentResultS {
         try {
             val memberEntity: MemberEntity = memberRepository.getReferenceById(param.member.id!!)
@@ -28,6 +31,16 @@ class CommentServiceImpl(
             return CommentResultS(commentEntity)
         } catch(ex: EntityNotFoundException) {
             throw DataNotFoundException("Not Found Error : (${ex.localizedMessage})")
+        }
+    }
+
+    @Transactional(readOnly = false)
+    override fun deleteCommentById(commentId: Long) {
+        try {
+            println("commentId : ${commentId}")
+            commentRepository.deleteById(commentId)
+        } catch(ex: IllegalArgumentException) {
+            throw DataNotFoundExceptionWhenDelete("Not Found Comment Error(${commentId})")
         }
     }
 }
