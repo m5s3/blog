@@ -7,6 +7,7 @@ import com.m5s3.blog.repository.MemberRepository
 import com.m5s3.blog.service.BlogService
 import com.m5s3.blog.service.dto.BlogParamS
 import com.m5s3.blog.service.dto.BlogResultS
+import com.m5s3.blog.service.dto.BlogWithCommentsResultS
 import com.m5s3.blog.service.dto.toEntity
 import com.m5s3.blog.service.exception.DataNotFoundException
 import com.m5s3.blog.service.exception.DataNotFoundExceptionWhenDelete
@@ -25,16 +26,20 @@ class BlogServiceImpl(
 
     @Transactional(readOnly = true)
     override fun getBlogById(id: Long): BlogResultS {
-//        try {
-//
-//        } catch(ex: EntityNotFoundException) {
-//
-//        }
         val blogEntity: BlogEntity =
             blogRepository.findByIdOrNull(id)
                 ?: throw DataNotFoundException("Not Found Error(${id})")
 
         return BlogResultS(blogEntity)
+    }
+
+    @Transactional(readOnly = true)
+    override fun getBlogWithComments(id: Long): BlogWithCommentsResultS {
+        val blogEntity: BlogEntity =
+            blogRepository.findByIdOrNull(id)
+                ?: throw DataNotFoundException("Not Found Error(${id}")
+
+        return BlogWithCommentsResultS(blogEntity)
     }
 
     @Transactional(readOnly = false)

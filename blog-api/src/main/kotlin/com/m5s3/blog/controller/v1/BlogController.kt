@@ -1,10 +1,8 @@
 package com.m5s3.blog.controller.v1
 
-import com.m5s3.blog.controller.v1.dto.BlogParamC
-import com.m5s3.blog.controller.v1.dto.BlogResultC
-import com.m5s3.blog.controller.v1.dto.MemberParamC
-import com.m5s3.blog.controller.v1.dto.toS
+import com.m5s3.blog.controller.v1.dto.*
 import com.m5s3.blog.service.BlogService
+import com.m5s3.blog.service.dto.BlogWithCommentsResultS
 import com.m5s3.blog.service.exception.DataNotFoundException
 import com.m5s3.blog.service.exception.DataNotFoundExceptionWhenDelete
 import com.m5s3.blog.service.exception.DataNotFoundExceptionWhenModify
@@ -28,9 +26,9 @@ class BlogController(
     @GetMapping("/{id}")
     fun getBlog(
         @PathVariable id:Long
-    ): BlogResultC {
+    ): BlogWithCommentsResultC {
         try {
-            return BlogResultC(blogService.getBlogById(id))
+            return BlogWithCommentsResultC(blogService.getBlogWithComments(id))
         } catch(e: DataNotFoundException) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, e.message, e)
         }

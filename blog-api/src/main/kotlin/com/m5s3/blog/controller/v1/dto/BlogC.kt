@@ -2,6 +2,7 @@ package com.m5s3.blog.controller.v1.dto
 
 import com.m5s3.blog.service.dto.BlogParamS
 import com.m5s3.blog.service.dto.BlogResultS
+import com.m5s3.blog.service.dto.BlogWithCommentsResultS
 import com.m5s3.blog.service.dto.MemberResultS
 
 
@@ -30,6 +31,29 @@ data class BlogResultC(
                     title = title,
                     content = content,
                     member = MemberResultC(member)
+                )
+            }
+    }
+}
+
+data class BlogWithCommentsResultC(
+    val id: Long,
+    val title: String,
+    val content: String,
+    val member: MemberResultC,
+    val commentsResultS: Set<CommentResultC>,
+) {
+    companion object {
+        operator fun invoke(blogWithCommentsResultS: BlogWithCommentsResultS) =
+            with(blogWithCommentsResultS) {
+                BlogWithCommentsResultC(
+                    id = id,
+                    title = title,
+                    content = content,
+                    member = MemberResultC(member),
+                    commentsResultS = commentsResultS.map {
+                        CommentResultC(it)
+                    }.toSet()
                 )
             }
     }
